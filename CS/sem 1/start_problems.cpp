@@ -34,7 +34,7 @@ int binary_euclid(int a, int b){
     else if (a == 0)
         a = b;
     // Recovering 2^k
-    a << k;
+    a = a << k;
     return a;
 }
 
@@ -59,6 +59,7 @@ int rec_euclid(int a, int b){
 int main(){
     int a, b;
     cin >> a >> b;
+    cout << euclid(a, b) << endl;
     cout << binary_euclid(a, b) << endl;
     return 0;
 }
