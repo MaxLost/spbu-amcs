@@ -24,8 +24,8 @@ int chinese_remainder1(const int *a, const int *m, int k){
     int ans = 0;
     for (int i = 0; i < k; i++){
         int Mi = M / *(m+i);
-        int m_inv = mul_inverse(Mi, *(m+i));
-        ans += *(a+i) * Mi * m_inv;
+        int Mi_inv = mul_inverse(Mi, *(m+i));
+        ans += *(a+i) * Mi * Mi_inv;
     }
     return ans % M;
 }
