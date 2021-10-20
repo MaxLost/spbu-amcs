@@ -38,13 +38,13 @@ int chinese_remainder2(const int *a, const int *m, int k){
                 return -1;
         }
     }
-    int prev_a = a[0];
-    int prev_m = m[0];
+    int prev_a = *a;
+    int prev_m = *m;
     for (int i = 1; i < k; i++){
         int c, d;
-        extended_euclid(prev_m, m[i], &c, &d);
-        prev_a = a[i]*prev_m*c + prev_a*m[i]*d;
-        prev_m = prev_m * m[i];
+        extended_euclid(prev_m, *(m+i), &c, &d);
+        prev_a = *(a+i) * prev_m * c + prev_a * *(m+i) * d;
+        prev_m = prev_m * *(m+i);
     }
     prev_a %= prev_m;
     if (prev_a < 0)
