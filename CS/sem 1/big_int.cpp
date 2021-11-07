@@ -1,3 +1,6 @@
+#include <iostream>
+#include <string.h>
+
 typedef struct big_int {
     unsigned int length;
     unsigned char *number;
