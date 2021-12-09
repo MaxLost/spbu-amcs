@@ -2,7 +2,6 @@
 #include <string.h>
 #include "big_int.h"
 
-
 unsigned int len(const char *num, bool rev){
     unsigned int k = 0;
     if (rev){
@@ -81,7 +80,7 @@ void big_int_print_dec(const big_int *n){
 
 big_int *big_int_get_bin(const char *bin_number){
     unsigned int num_len = len(bin_number, false);
-    unsigned int len = (num_len / 8) + ((num_len & 7) > 0);
+    unsigned int len = (num_len >> 3) + ((num_len & 7) > 0);
     big_int *result = (big_int*) malloc(sizeof(big_int));
     result->length = len;
     result->number = (unsigned char*) malloc(len);
@@ -478,17 +477,26 @@ void big_int_divide(const big_int *n1, const big_int *n2, big_int *quotient, big
         return;
     }
     int c = 0, d = 0;
-    for (int j = 8; j >= 0; j--){
-        if (temp->number[temp->length - 1] & (1 << j) && !c)
+    for (int j = 7; j >= 0; j--){
+        if ((temp->number[temp->length - 1] & (1 << j)) && !c)
             c = j;
-        if (remainder->number[remainder->length - 1] & (1 << j) && !d)
+        if ((remainder->number[remainder->length - 1] & (1 << j)) && !d)
             d = j;
     }
     big_int *t = big_int_get_bin("0");
-    big_int_left_shift(temp, (temp->length - remainder->length + std::abs(c-d)), t);
+    big_int_left_shift(temp, ((remainder->length) - (temp->length))*8, t);
     big_int_assign(temp, t);
+    if (c > d){
+        big_int_right_shift(temp, (c-d), t);
+        big_int_assign(temp, t);
+    }
+    else if (d > c){
+        big_int_left_shift(temp, (d-c), t);
+        big_int_assign(temp, t);
+    }
+
     big_int *zero = big_int_get_bin("0");
-    while ((big_int_compare(temp, n2, true) >= 0) && (big_int_compare(remainder, zero, true) > 0)){
+    while ((big_int_compare(temp, n2, true) >= 0) && (big_int_compare(remainder, zero, true) >= 0)){
         big_int_clear(t);
         big_int_left_shift(quotient, 1, t);
         big_int_assign(quotient, t);
@@ -519,35 +527,41 @@ void big_int_divide(const big_int *n1, const big_int *n2, big_int *quotient, big
 }
 
 void big_int_mod_pow(const big_int *x, const big_int *y, const big_int *n, big_int *result){
-    big_int_clear(result);
-    big_int *temp = big_int_get_bin("1");
-    big_int_assign(result, temp);
-    big_int_free(temp);
+    //big_int_clear(result);
+    big_int_free(result);
+    result = big_int_get_bin("1");
+    //big_int *temp = big_int_get_bin("1");
+    //big_int_assign(result, temp);
+    //big_int_free(temp);
     big_int *q = big_int_get_bin("0");
     big_int *deg = big_int_get_bin("0");
+
     big_int_divide(x, n, q, deg);
     for (int i = 0; i < y->length; i++){
         for (int j = 0; j < 8; j++){
             big_int *t = big_int_get_bin("0");
             if (y->number[i] & (1 << j)){
-                big_int_clear(t);
+                //big_int_clear(t);
                 big_int_multiply(result, deg, t);
                 big_int_assign(result, t);
+                //big_int_clear(t);
                 big_int_divide(result, n, q, t);
                 big_int_assign(result, t);
-                big_int_resize(result);
+                //big_int_resize(result);
             }
-            big_int_clear(t);
+            printf("\n%d) ", i*8+j);
+            //big_int_clear(t);
             big_int_multiply(deg, deg, t);
+            printf("\nend\n");
             big_int_assign(deg, t);
-            big_int_clear(t);
+            //big_int_clear(t);
             big_int_divide(deg, n, q, t);
             big_int_assign(deg, t);
+            //big_int_resize(deg);
             big_int_free(t);
         }
     }
     big_int *t = big_int_get_bin("0");
-    big_int_clear(t);
     big_int_divide(result, n, q, t);
     big_int_assign(result, t);
     big_int_free(deg);
@@ -560,17 +574,21 @@ int main(){
     //for (unsigned long long i; i < 10e16; i++){
     const char *bin_str1 = "111"; // 11010101'01010101
     //const char *bin_str2 = "11100011000110011"; // 10101010'10101011
-    const char *bin_str3 = "10101";
-    const char *bin_str4 = "111110";
+    const char *bin_str3 = "1001010111"; //349
+    const char *bin_str4 = "1111010110110011011101100100010011010110000101010";
     const char *bin_str5 = "-10110111";
     big_int *q = big_int_get_bin("0");
 
-    big_int *x = big_int_get_bin(bin_str3); // 21
-    big_int *y = big_int_get_bin(bin_str4); // 62
-    big_int *n = big_int_get_bin("10001"); // 17
+    big_int *x = big_int_get_bin(bin_str3);
+    big_int *y = big_int_get_bin(bin_str4);
+    big_int *n = big_int_get_bin("1111010110110011011101100100010011010110000101011");
     big_int *t = big_int_get_bin("0");
+    big_int *a = big_int_get_bin("0");
+    //big_int_multiply(y, n, t);
     big_int_mod_pow(x, y, n, t);
+    //big_int_divide(t, y, x, a);
     big_int_print_bin(t); // answer = 16
+
     big_int_free(x);
     big_int_free(y);
     big_int_free(n);
