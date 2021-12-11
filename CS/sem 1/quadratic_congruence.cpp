@@ -3,6 +3,17 @@
 #include "legendre_euler.h"
 #include "mod_pow.h"
 
+int is_prime(long n){
+    long root = sqrt(n);
+    for (long i = 2; i <= root; i++){
+        if (n % i == 0)
+            return 0;
+    }
+    if ( (long) sqrt(n)*sqrt(n) == n)
+        return 0;
+    return 1;
+}
+
 int quadratic_congruence(long a, long p){
     long c = 2, k = 0, b = 1, _p = p - 1;
     while ((_p & 1) == 0){
@@ -12,16 +23,15 @@ int quadratic_congruence(long a, long p){
     while (legendre_euclidian(c, p) == 1)
         c++;
     long r, h = _p;
-    if (k == 1)
-        r = k;
-    else if (k >= 2)
+    if (k >= 1)
         r = k - 1;
     else
-        r = 0;
+        r = k;
 
-    while (r > 0){
+    while (r >= 0){
         for (int i = 0; i <= r; i++){
-            if ((mod_pow(a, pow(2, i) * h, p) * mod_pow(b, pow(2, i + 1), p)) == 1){
+            long expr = (mod_pow(a, pow(2, i) * h, p) * mod_pow(b, pow(2, i + 1), p)) % p;
+            if (expr == 1){
                 r = i;
                 break;
             }
@@ -36,13 +46,18 @@ int quadratic_congruence(long a, long p){
 
 int main(){
     long a, p;
-    printf("Enter a, p: ");
+    printf("Enter A, P: ");
     scanf("%ld %ld", &a, &p);
-    if (legendre_euclidian(a, p) == -1)
-        printf("No solutions");
+    if (is_prime(p)){
+        if (legendre_euclidian(a, p) == -1)
+            printf("No solutions");
+        else {
+            int ans = quadratic_congruence(a, p);
+            printf("%ld %ld", ans, -1*ans);
+        }
+    }
     else {
-        int ans = quadratic_congruence(a, p);
-        printf("%ld %ld", ans, -1*ans);
+        printf("P is not prime");
     }
     return 0;
 }
