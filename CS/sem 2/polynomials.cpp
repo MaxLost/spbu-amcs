@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include "str_input.h"
 
 struct poly{
     int k;
@@ -9,29 +10,38 @@ struct poly{
 
 typedef struct poly poly;
 
+poly *poly_get_monomial(int k, int deg){
+    poly *t = (poly *) malloc(sizeof(poly));
+    t->k = k;
+    t->deg = deg;
+    t->next = NULL;
+    return t;
+}
+
 void poly_free(poly *p){
-    if (p == NULL)
-        return;
-    poly_free(p->next);
-    free(p);
+    poly *t;
+    while (p != NULL){
+        t = p->next;
+        free(p);
+        p = t;
+    }
     return;
 }
 
-void poly_insert(poly **m, poly *a){
-    poly *p = a;
-    while (p != NULL){
+void poly_merge(poly **m, poly *a){
+    int flag = 0;
+    while (a){
         poly *iter = *m;
         poly *prev = NULL;
-        while (iter != NULL){
+        while (iter){
+            flag = 0;
             if (iter->k == 0 && iter->deg == 0){
-                iter->k = p->k;
-                iter->deg = p->deg;
+                iter->k = a->k;
+                iter->deg = a->deg;
                 break;
             }
-            if (iter->deg < p->deg){
-                poly *t = (poly *) malloc(sizeof(poly));
-                t->k = p->k;
-                t->deg = p->deg;
+            if (iter->deg < a->deg){
+                poly *t = poly_get_monomial(a->k, a->deg);
                 if (iter == *m){
                     t->next = *m;
                     *m = t;
@@ -42,21 +52,31 @@ void poly_insert(poly **m, poly *a){
                 }
                 break;
             }
-            else if (iter->deg == p->deg){
-                iter->k += p->k;
+            else if (iter->deg == a->deg){
+                iter->k += a->k;
+                if (iter->k == 0){
+                    iter->deg = 0;
+                    if (prev){
+                        prev->next = iter->next;
+                    }
+                    else if (iter->next){
+                        poly *t = iter;
+                        iter = iter->next;
+                        free(t);
+                        prev = iter;
+                    }
+                    flag = 1;
+                }
                 break;
             }
             prev = iter;
             iter = iter->next;
         }
-        if (iter == NULL){
-            poly *t = (poly *) malloc(sizeof(poly));
-            t->k = p->k;
-            t->deg = p->deg;
-            t->next = NULL;
+        if (!iter && prev && !flag){
+            poly *t = poly_get_monomial(a->k, a->deg);
             prev->next = t;
         }
-        p = p->next;
+        a = a->next;
     }
     return;
 }
@@ -67,11 +87,8 @@ poly *poly_get(const char *str){
         return NULL;
     }
 
-    poly *result = (poly *) malloc(sizeof(poly));
-    result->k = 0; result->deg = 0; result->next = NULL;
-
-    poly *p = (poly *) malloc(sizeof(poly));
-    p->k = 0; p->deg = 0; p->next = NULL;
+    poly *result = poly_get_monomial(0, 0);
+    poly *p = poly_get_monomial(0, 0);
 
     poly *iter = result;
 
@@ -79,14 +96,14 @@ poly *poly_get(const char *str){
     char *s = (char *) str;
     while (*s != '\0'){
         if (*s == '-'){
-            sign = -1;
+            sign *= -1;
             ++s;
         }
         else if (*s >= '0' && *s <= '9'){
             buffer = strtol(s, &s, 10);
             p->k = buffer * sign;
             if (*s != 'x'){
-                poly_insert(&result, p);
+                poly_merge(&result, p);
                 p->k = 0; p->deg = 0;
             }
             sign = 1;
@@ -109,11 +126,16 @@ poly *poly_get(const char *str){
                 else
                     ++s;
             }
-            poly_insert(&result, p);
+            poly_merge(&result, p);
             p->k = 0; p->deg = 0;
+            sign = 1;
         }
-        else if (*s =='^' || *s == '+')
+        else if (*s == '+'){
             ++s;
+            if (*s == 'x'){
+                p->k = 1;
+            }
+        }
         else {
             printf("Incorrect input");
             return NULL;
@@ -164,51 +186,47 @@ void poly_print(const poly *p){
 
 void poly_clone(poly **result, const poly *a){
     poly_free(*result);
-    *result = poly_get("0");
-    poly *i = (poly *) a;
+    *result = poly_get_monomial(0, 0);
     poly *prev = *result;
-    while (i != NULL){
-        poly *t = (poly *) malloc(sizeof(poly));
-        t->k = i->k;
-        t->deg = i->deg;
-        t->next = NULL;
+    poly *t = NULL;
+    while (a){
         if (prev->k == 0 && prev->deg == 0){
-            prev->k = t->k;
-            prev->deg = t->deg;
+            t = prev;
         }
         else {
-            prev->next = t;
-            prev = t;
+            t = (poly *) malloc(sizeof(poly));
         }
-        i = i->next;
+        memcpy((void *) t, (void *) a, sizeof(poly));
+        t->next = NULL;
+        prev->next = t;
+        prev = t;
+        a = a->next;
     }
+    prev->next = NULL;
     return;
 }
 
 void poly_add(poly *a, poly *b, poly **result){
     poly_clone(result, a);
-    poly_insert(result, b);
+    poly_merge(result, b);
     return;
 }
 
 void poly_multiply(const poly *a, const poly *b, poly **result){
     poly_free(*result);
-    *result = poly_get("0");
+    *result = poly_get_monomial(0, 0);
     poly *i = (poly *) a;
-    while (i != NULL){
+    while (i){
         poly *j = (poly *) b;
         if (i->k == 0){
             break;
         }
-        while (j != NULL){
+        while (j){
             if (j->k == 0){
                 break;
             }
-            poly *t = (poly *) malloc (sizeof(poly));
-            t->k = i->k * j->k;
-            t->deg = i->deg + j->deg;
-            t->next = NULL;
-            poly_insert(result, t);
+            poly *t = poly_get_monomial((i->k) * (j->k), (i->deg) + (j->deg));
+            poly_merge(result, t);
             j = j->next;
         }
         i = i->next;
@@ -216,32 +234,29 @@ void poly_multiply(const poly *a, const poly *b, poly **result){
     return;
 }
 
-char *get_string_input(){
-    char *input = (char *) malloc(64);
-    int input_size = 0;
-    char c;
-    while ((c = getchar()) != '\n'){
-        if ((input_size + 1) & 63){
-            input = (char *) realloc(input, ((input_size + 1) / 64) + 64);
-        }
-        input[input_size] = c;
-        ++input_size;
-    }
-    input = (char *) realloc(input, input_size + 1);
-    input[input_size] = '\0';
-    if (input)
-        return input;
-    return NULL;
-}
-
 int main(){
     char *input = get_string_input();
-    poly *p = poly_get(input);
-    poly *q = NULL;
-    poly_clone(&q, p);
-    poly *t = poly_get("0");
-    poly_multiply(q, p, &t);
+    poly *summ = poly_get(input);
+
+    input = get_string_input();
+    poly *q = poly_get(input);
+
+    poly *t = poly_get_monomial(0, 0);
+    poly_multiply(summ, q, &t);
     poly_print(t);
-    poly_free(p); poly_free(q); poly_free(t);
+    /*while (true){
+        printf("Enter polynomial or \"stop\": ");
+        char *input = get_string_input();
+        if (!strcmp(input, "stop")){
+            printf("Final summ: ");
+            poly_print(summ);
+            break;
+        }
+        poly *p = poly_get(input);
+        poly_merge(&summ, p);
+        printf("Current summ: ");
+        poly_print(summ);
+        printf("\n");
+    }*/
     return 0;
 }
