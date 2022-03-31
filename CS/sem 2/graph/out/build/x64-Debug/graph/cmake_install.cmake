@@ -1,8 +1,8 @@
-# Install script for directory: C:/Users/User/Desktop/sem2/graph/graph
+# Install script for directory: C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/graph
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "C:/Users/User/Desktop/sem2/graph/out/install/x64-Debug")
+  set(CMAKE_INSTALL_PREFIX "C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/install/x64-Debug")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
