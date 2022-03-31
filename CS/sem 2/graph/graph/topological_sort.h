@@ -1,0 +1,7 @@
+#ifndef TOPOLOGICAL_SORT_H_INCLUDED
+#define TOPOLOGICAL_SORT_H_INCLUDED
+
+#include "graph.h"
+
+
+#endif // TOPOLOGICAL_SORT_H_INCLUDED
