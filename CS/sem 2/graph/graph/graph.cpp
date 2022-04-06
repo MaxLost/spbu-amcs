@@ -159,15 +159,3 @@ void graph_print(graph* g) {
     }
     return;
 }
-
-int check_neighbours(adj_node* ptr, int* color) {
-    int v = ptr->num;
-    node* p = ptr->arc_list;
-    while (p) {
-        if (color[p->num] == color[v]) {
-            return 1;
-        }
-        p = p->next;
-    }
-    return 0;
-}

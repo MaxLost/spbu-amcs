@@ -1,5 +1,17 @@
 #include "bipartity_check.h"
 
+int check_neighbours(adj_node* ptr, int* color) {
+    int v = ptr->num;
+    node* p = ptr->arc_list;
+    while (p) {
+        if (color[p->num] == color[v]) {
+            return 1;
+        }
+        p = p->next;
+    }
+    return 0;
+}
+
 int bipart_graph(int* color, int n, int** a, int* k, int** b, int* l) {
     if (!(*k) || !(*l)) {
         *k = 0, * l = 0;
@@ -27,7 +39,6 @@ int inverse_color(int color) {
 }
 
 int is_bipartite(graph* g, int* color) {
-    //int* color = (int*)calloc(g->n, sizeof(int));
     int start_color = 1;
     for (int i = 0; i < g->n; i++) {
         if (!color[i]) {

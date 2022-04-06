@@ -1,6 +1,7 @@
-#include <iostream>
+#include <stdio.h>
 #include "graph.h"
 #include "bipartity_check.h"
+#include "topological_sort.h"
 
 void bipartite_test(graph* x) {
 
@@ -26,6 +27,18 @@ void bipartite_test(graph* x) {
     }
 }
 
+void get_sorted_vertexes(graph* x) {
+    int* sorted_vertexes = (int*)malloc(x->n * sizeof(int));
+    if (topological_sort(x, sorted_vertexes)) {
+        return;
+    }
+    else {
+        for (int i = 0; i < x->n; i++) printf("%d ", i);
+        printf("\n");
+        for (int i = 0; i < x->n; i++) printf("%d ", sorted_vertexes[i]);
+    }
+}
+
 int main() {
     int n = 4;
     /*
@@ -34,11 +47,13 @@ int main() {
     getchar();
     */
     graph* x = graph_init(n);
-    add_edge(x, 0, 1);
-    add_edge(x, 1, 2);
-    add_edge(x, 3, 0);
+    add_arc(x, 3, 0);
+    add_arc(x, 0, 1);
+    add_arc(x, 1, 2);
+    //add_arc(x, 2, 1);
     graph_print(x);
-    bipartite_test(x);
+    get_sorted_vertexes(x);
+    //bipartite_test(x);
     /*int* a = (int*)calloc(n, sizeof(int));
     int* b = (int*)calloc(n, sizeof(int));
     int k = 0, l = 0;

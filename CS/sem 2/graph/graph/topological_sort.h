@@ -3,5 +3,6 @@
 
 #include "graph.h"
 
+int topological_sort(graph* g, int* sorted_vertexes);
 
 #endif // TOPOLOGICAL_SORT_H_INCLUDED
