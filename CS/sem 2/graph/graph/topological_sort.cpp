@@ -1,12 +1,9 @@
 #include "topological_sort.h"
 
-int check_neighbours(int v, adj_node *adj_ptr, int* status) {
-	while (adj_ptr->num != v) {
-		adj_ptr = adj_ptr->next;
-	}
+int check_neighbours(adj_node *adj_ptr, int* status) {
 	node* arc_ptr = adj_ptr->arc_list;
 	while (arc_ptr) {
-		if (status[arc_ptr->num] == 1) {
+		if (status[arc_ptr->num] < 2) {
 			return 1;
 		}
 		arc_ptr = arc_ptr->next;
@@ -26,13 +23,11 @@ int topological_sort(graph* g, int* sorted_vertexes) {
 					stack_pop(&stack);
 				}
 				else {
-					adj_node* adj_ptr = g->adj_list;
-					while (adj_ptr->num != v) {
-						adj_ptr = adj_ptr->next;
-					}
+					status[v] = 1;
+					adj_node *adj_ptr = find_adj_node(v, g);
 					node* arc_ptr = adj_ptr->arc_list;
 
-					if (!arc_ptr || !check_neighbours(arc_ptr->num, g->adj_list, status)) {
+					if (!arc_ptr || !check_neighbours(adj_ptr, status)) {
 						status[adj_ptr->num] = 2;
 						sorted_vertexes[out_num] = adj_ptr->num;
 						out_num--;

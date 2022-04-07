@@ -8,6 +8,14 @@ adj_node *create_adj_node(int num, node *arc = NULL, adj_node *next = NULL){
     return result;
 }
 
+adj_node* find_adj_node(int v, graph *g) {
+    adj_node* adj_ptr = g->adj_list;
+    while (adj_ptr->num != v) {
+        adj_ptr = adj_ptr->next;
+    }
+    return adj_ptr;
+}
+
 graph* graph_init(int n) {
     graph* result = (graph*)malloc(sizeof(graph));
     if (result) {

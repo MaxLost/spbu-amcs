@@ -21,6 +21,8 @@ typedef struct {
 graph* graph_init(int n);
 graph* graph_get(int n);
 
+adj_node* find_adj_node(int v, graph* g);
+
 void graph_free(graph* g);
 void add_arc(graph* g, int origin, int destination);
 void add_edge(graph* g, int v, int w);

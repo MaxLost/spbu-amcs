@@ -2,14 +2,15 @@
 #include "graph.h"
 #include "bipartity_check.h"
 #include "topological_sort.h"
+#include "file_input.h"
 
 void bipartite_test(graph* x) {
 
     int* color = (int*)calloc(x->n, sizeof(int));
     if (color) {
-
         if (is_bipartite(x, color)) {
             printf("Graph is not biparted");
+            return;
         }
         else {
             printf("1st part: ");
@@ -22,19 +23,18 @@ void bipartite_test(graph* x) {
             }
         }
     }
+    return;
 }
 
 void get_sorted_vertexes(graph* x) {
     int* sorted_vertexes = (int*)malloc(x->n * sizeof(int));
-    if (topological_sort(x, sorted_vertexes)) {
-        return;
-    }
-    else {
+    if (!topological_sort(x, sorted_vertexes)) {
         printf("Old: ");
         for (int i = 0; i < x->n; i++) printf("%d ", i);
         printf("\nNew: ");
         for (int i = 0; i < x->n; i++) printf("%d ", sorted_vertexes[i]);
     }
+    return;
 }
 
 int main() {
@@ -51,6 +51,7 @@ int main() {
     //add_arc(x, 2, 1);
     graph_print(x);
     get_sorted_vertexes(x);
+    //graph* g = graph_read("..\\..\\..\\..\\graph\\test_graph.txt");
     //bipartite_test(x);
     /*int* a = (int*)calloc(n, sizeof(int));
     int* b = (int*)calloc(n, sizeof(int));
