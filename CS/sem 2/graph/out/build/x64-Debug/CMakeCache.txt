@@ -202,6 +202,9 @@ GRAPH_SOURCE_DIR:STATIC=C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph
 bipartity_check_LIB_DEPENDS:STATIC=general;graph;
 
 //Dependencies for the target
+file_input_LIB_DEPENDS:STATIC=general;graph;
+
+//Dependencies for the target
 graph_LIB_DEPENDS:STATIC=general;str_input;general;list;
 
 //Dependencies for the target

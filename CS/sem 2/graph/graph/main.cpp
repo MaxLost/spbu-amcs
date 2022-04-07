@@ -7,11 +7,8 @@ void bipartite_test(graph* x) {
 
     int* color = (int*)calloc(x->n, sizeof(int));
     if (color) {
-        //int* a = (int*)calloc(x->n, sizeof(int));
-        //int* b = (int*)calloc(x->n, sizeof(int));
-        //int k = 0, l = 0;
 
-        if (is_bipartite(x, color)) {//bipartity_check_bfs(x, &a, &k, &b, &l)) {
+        if (is_bipartite(x, color)) {
             printf("Graph is not biparted");
         }
         else {
@@ -33,8 +30,9 @@ void get_sorted_vertexes(graph* x) {
         return;
     }
     else {
+        printf("Old: ");
         for (int i = 0; i < x->n; i++) printf("%d ", i);
-        printf("\n");
+        printf("\nNew: ");
         for (int i = 0; i < x->n; i++) printf("%d ", sorted_vertexes[i]);
     }
 }
