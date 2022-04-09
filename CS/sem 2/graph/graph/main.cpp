@@ -1,17 +1,18 @@
-#include <iostream>
+#include <stdio.h>
 #include "graph.h"
 #include "bipartity_check.h"
+#include "topological_sort.h"
+#include "file_input.h"
+
+#define CUR_DIR "..\\..\\..\\..\\graph\\"
 
 void bipartite_test(graph* x) {
 
     int* color = (int*)calloc(x->n, sizeof(int));
     if (color) {
-        //int* a = (int*)calloc(x->n, sizeof(int));
-        //int* b = (int*)calloc(x->n, sizeof(int));
-        //int k = 0, l = 0;
-
-        if (is_bipartite(x, color)) {//bipartity_check_bfs(x, &a, &k, &b, &l)) {
+        if (is_bipartite(x, color)) {
             printf("Graph is not biparted");
+            return;
         }
         else {
             printf("1st part: ");
@@ -24,6 +25,18 @@ void bipartite_test(graph* x) {
             }
         }
     }
+    return;
+}
+
+void get_sorted_vertexes(graph* x) {
+    int* sorted_vertexes = (int*)malloc(x->n * sizeof(int));
+    if (!topological_sort(x, sorted_vertexes)) {
+        printf("Old: ");
+        for (int i = 0; i < x->n; i++) printf("%d ", i);
+        printf("\nNew: ");
+        for (int i = 0; i < x->n; i++) printf("%d ", sorted_vertexes[i]);
+    }
+    return;
 }
 
 int main() {
@@ -34,11 +47,18 @@ int main() {
     getchar();
     */
     graph* x = graph_init(n);
-    add_edge(x, 0, 1);
-    add_edge(x, 1, 2);
-    add_edge(x, 3, 0);
+    add_arc(x, 3, 0);
+    add_arc(x, 0, 1);
+    add_arc(x, 1, 2);
+    //add_arc(x, 2, 1);
     graph_print(x);
-    bipartite_test(x);
+    //get_sorted_vertexes(x);
+    const char* source_path = CUR_DIR "test_graph.txt";
+    graph* g = graph_read(source_path);
+    graph_print(g);
+    const char* out_path = CUR_DIR "out_graph.txt";
+    graph_write(g, out_path);
+    //bipartite_test(x);
     /*int* a = (int*)calloc(n, sizeof(int));
     int* b = (int*)calloc(n, sizeof(int));
     int k = 0, l = 0;

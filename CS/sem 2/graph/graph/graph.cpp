@@ -8,6 +8,14 @@ adj_node *create_adj_node(int num, node *arc = NULL, adj_node *next = NULL){
     return result;
 }
 
+adj_node* find_adj_node(int v, graph *g) {
+    adj_node* adj_ptr = g->adj_list;
+    while (adj_ptr->num != v) {
+        adj_ptr = adj_ptr->next;
+    }
+    return adj_ptr;
+}
+
 graph* graph_init(int n) {
     graph* result = (graph*)malloc(sizeof(graph));
     if (result) {
@@ -158,16 +166,4 @@ void graph_print(graph* g) {
         adj_ptr = adj_ptr->next;
     }
     return;
-}
-
-int check_neighbours(adj_node* ptr, int* color) {
-    int v = ptr->num;
-    node* p = ptr->arc_list;
-    while (p) {
-        if (color[p->num] == color[v]) {
-            return 1;
-        }
-        p = p->next;
-    }
-    return 0;
 }

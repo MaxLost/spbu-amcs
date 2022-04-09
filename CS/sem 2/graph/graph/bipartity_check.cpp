@@ -1,5 +1,16 @@
 #include "bipartity_check.h"
 
+int check_neighbour(adj_node* adj_ptr, int* color) {
+    node* arc_ptr = adj_ptr->arc_list;
+    while (arc_ptr){
+        if (color[arc_ptr->num] == color[adj_ptr->num]) {
+            return 1;
+        }
+        arc_ptr = arc_ptr->next;
+    }
+    return 0;
+}
+
 int bipart_graph(int* color, int n, int** a, int* k, int** b, int* l) {
     if (!(*k) || !(*l)) {
         *k = 0, * l = 0;
@@ -27,7 +38,6 @@ int inverse_color(int color) {
 }
 
 int is_bipartite(graph* g, int* color) {
-    //int* color = (int*)calloc(g->n, sizeof(int));
     int start_color = 1;
     for (int i = 0; i < g->n; i++) {
         if (!color[i]) {
@@ -36,11 +46,8 @@ int is_bipartite(graph* g, int* color) {
             start_color = inverse_color(start_color);
             while (stack) {
                 int v = stack_pop(&stack);
-                adj_node* adj_ptr = g->adj_list;
-                while (adj_ptr->num != v) {
-                    adj_ptr = adj_ptr->next;
-                }
-                if (check_neighbours(adj_ptr, color)) {
+                adj_node* adj_ptr = find_adj_node(v, g);
+                if (check_neighbour(adj_ptr, color)) {
                     return 1;
                 }
                 else {
@@ -67,11 +74,8 @@ int bipartity_check_dfs(graph* g, int** a, int* k, int** b, int* l) {
             color[i] = 1;
             while (stack) {
                 int v = stack_pop(&stack);
-                adj_node* adj_ptr = g->adj_list;
-                while (adj_ptr->num != v) {
-                    adj_ptr = adj_ptr->next;
-                }
-                if (check_neighbours(adj_ptr, color)) {
+                adj_node* adj_ptr = find_adj_node(v, g);
+                if (check_neighbour(adj_ptr, color)) {
                     return 1;
                 }
                 else {
@@ -101,11 +105,8 @@ int bipartity_check_bfs(graph* g, int** a, int* k, int** b, int* l) {
             color[i] = 1;
             while (queue) {
                 int v = queue_pop(&queue);
-                adj_node* adj_ptr = g->adj_list;
-                while (adj_ptr->num != v) {
-                    adj_ptr = adj_ptr->next;
-                }
-                if (check_neighbours(adj_ptr, color)) {
+                adj_node* adj_ptr = find_adj_node(v, g);
+                if (check_neighbour(adj_ptr, color)) {
                     return 1;
                 }
                 else {

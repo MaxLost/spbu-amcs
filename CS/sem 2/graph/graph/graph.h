@@ -19,21 +19,15 @@ typedef struct {
 } graph;
 
 graph* graph_init(int n);
-
 graph* graph_get(int n);
 
+adj_node* find_adj_node(int v, graph* g);
+
 void graph_free(graph* g);
-
 void add_arc(graph* g, int origin, int destination);
-
 void add_edge(graph* g, int v, int w);
-
 void delete_arc(graph* g, int origin, int destination);
-
 void delete_edge(graph* g, int v, int w);
-
 void graph_print(graph* g);
-
-int check_neighbours(adj_node* ptr, int* color);
 
 #endif // GRAPH_H_INCLUDED
