@@ -4,6 +4,8 @@
 #include "topological_sort.h"
 #include "file_input.h"
 
+#define CUR_DIR "..\\..\\..\\..\\graph\\"
+
 void bipartite_test(graph* x) {
 
     int* color = (int*)calloc(x->n, sizeof(int));
@@ -50,8 +52,12 @@ int main() {
     add_arc(x, 1, 2);
     //add_arc(x, 2, 1);
     graph_print(x);
-    get_sorted_vertexes(x);
-    //graph* g = graph_read("..\\..\\..\\..\\graph\\test_graph.txt");
+    //get_sorted_vertexes(x);
+    const char* source_path = CUR_DIR "test_graph.txt";
+    graph* g = graph_read(source_path);
+    graph_print(g);
+    const char* out_path = CUR_DIR "out_graph.txt";
+    graph_write(g, out_path);
     //bipartite_test(x);
     /*int* a = (int*)calloc(n, sizeof(int));
     int* b = (int*)calloc(n, sizeof(int));

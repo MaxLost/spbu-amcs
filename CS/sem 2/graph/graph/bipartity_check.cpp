@@ -1,6 +1,6 @@
 #include "bipartity_check.h"
 
-int check_neighbours(adj_node* adj_ptr, int* color) {
+int check_neighbour(adj_node* adj_ptr, int* color) {
     node* arc_ptr = adj_ptr->arc_list;
     while (arc_ptr){
         if (color[arc_ptr->num] == color[adj_ptr->num]) {
@@ -47,7 +47,7 @@ int is_bipartite(graph* g, int* color) {
             while (stack) {
                 int v = stack_pop(&stack);
                 adj_node* adj_ptr = find_adj_node(v, g);
-                if (check_neighbours(adj_ptr, color)) {
+                if (check_neighbour(adj_ptr, color)) {
                     return 1;
                 }
                 else {
@@ -75,7 +75,7 @@ int bipartity_check_dfs(graph* g, int** a, int* k, int** b, int* l) {
             while (stack) {
                 int v = stack_pop(&stack);
                 adj_node* adj_ptr = find_adj_node(v, g);
-                if (check_neighbours(adj_ptr, color)) {
+                if (check_neighbour(adj_ptr, color)) {
                     return 1;
                 }
                 else {
@@ -106,7 +106,7 @@ int bipartity_check_bfs(graph* g, int** a, int* k, int** b, int* l) {
             while (queue) {
                 int v = queue_pop(&queue);
                 adj_node* adj_ptr = find_adj_node(v, g);
-                if (check_neighbours(adj_ptr, color)) {
+                if (check_neighbour(adj_ptr, color)) {
                     return 1;
                 }
                 else {
