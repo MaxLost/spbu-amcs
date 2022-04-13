@@ -208,6 +208,9 @@ file_input_LIB_DEPENDS:STATIC=general;graph;
 graph_LIB_DEPENDS:STATIC=general;str_input;general;list;
 
 //Dependencies for the target
+scc_partition_LIB_DEPENDS:STATIC=general;graph;
+
+//Dependencies for the target
 topological_sort_LIB_DEPENDS:STATIC=general;graph;
 
 
