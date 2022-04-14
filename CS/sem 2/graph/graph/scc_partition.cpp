@@ -72,5 +72,6 @@ int scc_partition(graph* g, int* parts) {
 			component++;
 		}
 	}
+	graph_free(h);
 	return 0;
 }

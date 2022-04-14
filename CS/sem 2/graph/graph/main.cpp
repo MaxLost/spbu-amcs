@@ -42,14 +42,18 @@ void get_sorted_vertexes(graph* x) {
 
 void get_scc(graph* g) {
 	int* parts = (int*)malloc(g->n * sizeof(int));
-	for (int i = 0; i < g->n; i++) parts[i] = -1;
-	if (scc_partition(g, parts)) {
-		printf("ERROR: Unable to get graph SCC's");
-		return;
-	}
-	else {
-		for (int i = 0; i < g->n; i++) {
-			printf("%d ", parts[i]);
+	if (parts) {
+		for (int i = 0; i < g->n; i++) parts[i] = -1;
+
+		if (scc_partition(g, parts)) {
+			printf("ERROR: Unable to get graph SCC's");
+			return;
+		}
+		else {
+			printf("Vertexes: ");
+			for (int i = 0; i < g->n; i++) printf("%d ", i);
+			printf("\nSCCs:     ");
+			for (int i = 0; i < g->n; i++) printf("%d ", parts[i]);
 		}
 	}
 	return;

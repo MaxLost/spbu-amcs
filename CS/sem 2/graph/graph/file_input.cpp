@@ -9,18 +9,19 @@ graph* graph_read(const char* path) {
 			return NULL;
 		}
 		graph* result = graph_init(n);
+		char* str = (char*)malloc(n * 4);
 		for (int i = 0; i < n; i++) {
-			char* str = (char*)malloc(n * 4);
 			if (fscanf(file, "%s", str)) {
 				int origin = strtol(str, &str, 10);
-				str++;
+				++str;
 				while (*str >= '0' && *str <= '9') {
 					int buffer = strtol(str, &str, 10);
-					str++;
+					++str;
 					add_arc(result, origin, buffer);
 				}
 			}
 		}
+		free(str);
 		fclose(file);
 		return result;
 	}
