@@ -29,7 +29,7 @@ int find_components(graph* h, int v, int* status, int component, int* parts) {
 	return 0;
 }
 
-graph* inverse_graph(graph* g) {
+graph* invert_arcs(graph* g) {
 	graph* result = graph_init(g->n);
 	adj_node* adj_ptr = g->adj_list;
 	while (adj_ptr) {
@@ -54,7 +54,7 @@ int scc_partition(graph* g, int* parts) {
 		parts[i] = -1;
 	}
 	
-	graph* h = inverse_graph(g);
+	graph* h = invert_arcs(g);
 
 	for (int i = 0; i < g->n; i++) {
 		if (!status[i]) {

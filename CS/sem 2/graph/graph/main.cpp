@@ -66,20 +66,24 @@ int main() {
 	scanf_s("%d", &n);
 	getchar();
 	*/
-	graph* x = graph_init(n);
+	/*graph* x = graph_init(n);
 	add_arc(x, 0, 1);
 	add_arc(x, 0, 2);
 	add_arc(x, 1, 0);
 	add_arc(x, 2, 3);
-	add_arc(x, 3, 2);
+	add_arc(x, 3, 2);*/
+	const char* source_path = CUR_DIR "test_graph.txt";
+	graph* x = graph_read(source_path);
 	graph_print(x);
 	get_scc(x);
+	const char* out_path = CUR_DIR "out_graph.txt";
+	graph_write(x, out_path);
 	/*const char* source_path = CUR_DIR "test_graph.txt";
 	graph* g = graph_read(source_path);
 	graph_print(g);
 	const char* out_path = CUR_DIR "out_graph.txt";
-	graph_write(g, out_path);
-	*/
+	graph_write(g, out_path);*/
+	
 	/*int* a = (int*)calloc(n, sizeof(int));
 	int* b = (int*)calloc(n, sizeof(int));
 	int k = 0, l = 0;

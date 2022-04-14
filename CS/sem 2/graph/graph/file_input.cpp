@@ -11,17 +11,18 @@ graph* graph_read(const char* path) {
 		graph* result = graph_init(n);
 		char* str = (char*)malloc(n * 4);
 		for (int i = 0; i < n; i++) {
-			if (fscanf(file, "%s", str)) {
-				int origin = strtol(str, &str, 10);
-				++str;
-				while (*str >= '0' && *str <= '9') {
-					int buffer = strtol(str, &str, 10);
-					++str;
+			int origin;
+			if (fscanf(file, "%d", &origin)) {
+				int c = fgetc(file);
+				while (c != (int) '\n' && c != EOF) {
+					int buffer;
+					fscanf(file, "%d", &buffer);
+					//++str;
 					add_arc(result, origin, buffer);
+					c = fgetc(file);
 				}
 			}
 		}
-		free(str);
 		fclose(file);
 		return result;
 	}
@@ -39,9 +40,12 @@ int graph_write(graph* g, const char* path) {
 		while(adj_ptr) {
 			fprintf(file, "%d,", adj_ptr->num);
 			node* arc_ptr = adj_ptr->arc_list;
-			while (arc_ptr) {
-				fprintf(file, "%d,", arc_ptr->num);
-				arc_ptr = arc_ptr->next;
+			if (arc_ptr) {
+				while (arc_ptr->next) {
+					fprintf(file, "%d,", arc_ptr->num);
+					arc_ptr = arc_ptr->next;
+				}
+				fprintf(file, "%d", arc_ptr->num);
 			}
 			fprintf(file, "\n");
 			adj_ptr = adj_ptr->next;
