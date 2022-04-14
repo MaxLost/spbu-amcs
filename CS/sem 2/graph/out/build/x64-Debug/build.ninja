@@ -97,6 +97,40 @@ build graph\str_input.lib: CXX_STATIC_LIBRARY_LINKER__str_input_Debug graph\CMak
   TARGET_PDB = graph\str_input.pdb
 
 # =============================================================================
+# Object build statements for STATIC_LIBRARY target scc_partition
+
+
+#############################################
+# Order-only phony target for scc_partition
+
+build cmake_object_order_depends_target_scc_partition: phony || cmake_object_order_depends_target_graph cmake_object_order_depends_target_list cmake_object_order_depends_target_str_input
+
+build graph\CMakeFiles\scc_partition.dir\scc_partition.cpp.obj: CXX_COMPILER__scc_partition_Debug ..\..\..\graph\scc_partition.cpp || cmake_object_order_depends_target_scc_partition
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  OBJECT_DIR = graph\CMakeFiles\scc_partition.dir
+  OBJECT_FILE_DIR = graph\CMakeFiles\scc_partition.dir
+  TARGET_COMPILE_PDB = graph\CMakeFiles\scc_partition.dir\scc_partition.pdb
+  TARGET_PDB = graph\scc_partition.pdb
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target scc_partition
+
+
+#############################################
+# Link the static library graph\scc_partition.lib
+
+build graph\scc_partition.lib: CXX_STATIC_LIBRARY_LINKER__scc_partition_Debug graph\CMakeFiles\scc_partition.dir\scc_partition.cpp.obj || graph\graph.lib graph\list.lib graph\str_input.lib
+  LANGUAGE_COMPILE_FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
+  LINK_FLAGS = /machine:x64
+  OBJECT_DIR = graph\CMakeFiles\scc_partition.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_COMPILE_PDB = graph\CMakeFiles\scc_partition.dir\scc_partition.pdb
+  TARGET_FILE = graph\scc_partition.lib
+  TARGET_PDB = graph\scc_partition.pdb
+
+# =============================================================================
 # Object build statements for STATIC_LIBRARY target topological_sort
 
 
@@ -171,7 +205,7 @@ build graph\list.lib: CXX_STATIC_LIBRARY_LINKER__list_Debug graph\CMakeFiles\lis
 #############################################
 # Order-only phony target for GRAPH
 
-build cmake_object_order_depends_target_GRAPH: phony || cmake_object_order_depends_target_bipartity_check cmake_object_order_depends_target_file_input cmake_object_order_depends_target_graph cmake_object_order_depends_target_list cmake_object_order_depends_target_str_input cmake_object_order_depends_target_topological_sort
+build cmake_object_order_depends_target_GRAPH: phony || cmake_object_order_depends_target_bipartity_check cmake_object_order_depends_target_file_input cmake_object_order_depends_target_graph cmake_object_order_depends_target_list cmake_object_order_depends_target_scc_partition cmake_object_order_depends_target_str_input cmake_object_order_depends_target_topological_sort
 
 build graph\CMakeFiles\GRAPH.dir\main.cpp.obj: CXX_COMPILER__GRAPH_Debug ..\..\..\graph\main.cpp || cmake_object_order_depends_target_GRAPH
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
@@ -188,10 +222,10 @@ build graph\CMakeFiles\GRAPH.dir\main.cpp.obj: CXX_COMPILER__GRAPH_Debug ..\..\.
 #############################################
 # Link the executable graph\GRAPH.exe
 
-build graph\GRAPH.exe: CXX_EXECUTABLE_LINKER__GRAPH_Debug graph\CMakeFiles\GRAPH.dir\main.cpp.obj | graph\graph.lib graph\bipartity_check.lib graph\topological_sort.lib graph\file_input.lib graph\graph.lib graph\str_input.lib graph\list.lib || graph\bipartity_check.lib graph\file_input.lib graph\graph.lib graph\list.lib graph\str_input.lib graph\topological_sort.lib
+build graph\GRAPH.exe: CXX_EXECUTABLE_LINKER__GRAPH_Debug graph\CMakeFiles\GRAPH.dir\main.cpp.obj | graph\graph.lib graph\bipartity_check.lib graph\topological_sort.lib graph\file_input.lib graph\scc_partition.lib graph\graph.lib graph\str_input.lib graph\list.lib || graph\bipartity_check.lib graph\file_input.lib graph\graph.lib graph\list.lib graph\scc_partition.lib graph\str_input.lib graph\topological_sort.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
-  LINK_LIBRARIES = graph\graph.lib  graph\bipartity_check.lib  graph\topological_sort.lib  graph\file_input.lib  graph\graph.lib  graph\str_input.lib  graph\list.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
+  LINK_LIBRARIES = graph\graph.lib  graph\bipartity_check.lib  graph\topological_sort.lib  graph\file_input.lib  graph\scc_partition.lib  graph\graph.lib  graph\str_input.lib  graph\list.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib
   OBJECT_DIR = graph\CMakeFiles\GRAPH.dir
   POST_BUILD = cd .
   PRE_LINK = cd .
@@ -233,17 +267,6 @@ build graph\graph.lib: CXX_STATIC_LIBRARY_LINKER__graph_Debug graph\CMakeFiles\g
   TARGET_COMPILE_PDB = graph\CMakeFiles\graph.dir\graph.pdb
   TARGET_FILE = graph\graph.lib
   TARGET_PDB = graph\graph.pdb
-
-
-#############################################
-# Utility command for edit_cache
-
-build graph\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
-  COMMAND = cmd.exe /C "cd /D "C:\Users\User\Desktop\spbu-mm-amcs\CS\sem 2\graph\out\build\x64-Debug\graph" && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
-  DESC = No interactive CMake dialog available...
-  restat = 1
-
-build graph\edit_cache: phony graph\CMakeFiles\edit_cache.util
 
 # =============================================================================
 # Object build statements for STATIC_LIBRARY target file_input
@@ -315,6 +338,17 @@ build graph\bipartity_check.lib: CXX_STATIC_LIBRARY_LINKER__bipartity_check_Debu
 
 
 #############################################
+# Utility command for edit_cache
+
+build graph\CMakeFiles\edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cmd.exe /C "cd /D "C:\Users\User\Desktop\spbu-mm-amcs\CS\sem 2\graph\out\build\x64-Debug\graph" && "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available.""
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build graph\edit_cache: phony graph\CMakeFiles\edit_cache.util
+
+
+#############################################
 # Utility command for rebuild_cache
 
 build graph\CMakeFiles\rebuild_cache.util: CUSTOM_COMMAND
@@ -348,6 +382,10 @@ build list: phony graph\list.lib
 
 build list.lib: phony graph\list.lib
 
+build scc_partition: phony graph\scc_partition.lib
+
+build scc_partition.lib: phony graph\scc_partition.lib
+
 build str_input: phony graph\str_input.lib
 
 build str_input.lib: phony graph\str_input.lib
@@ -371,7 +409,7 @@ build all: phony graph\all
 #############################################
 # Folder: C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph
 
-build graph\all: phony graph\str_input.lib graph\topological_sort.lib graph\list.lib graph\GRAPH.exe graph\graph.lib graph\file_input.lib graph\bipartity_check.lib
+build graph\all: phony graph\str_input.lib graph\scc_partition.lib graph\topological_sort.lib graph\list.lib graph\GRAPH.exe graph\graph.lib graph\file_input.lib graph\bipartity_check.lib
 
 # =============================================================================
 # Built-in targets

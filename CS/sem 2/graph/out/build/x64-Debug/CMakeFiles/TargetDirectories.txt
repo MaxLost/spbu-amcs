@@ -1,11 +1,12 @@
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/CMakeFiles/edit_cache.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/str_input.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/scc_partition.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/topological_sort.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/list.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/GRAPH.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/graph.dir
-C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/edit_cache.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/file_input.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/bipartity_check.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/edit_cache.dir
 C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug/graph/CMakeFiles/rebuild_cache.dir
