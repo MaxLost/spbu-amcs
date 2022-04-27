@@ -11,6 +11,7 @@ add_library(bipartity_check STATIC bipartity_check.cpp)
 add_library(topological_sort STATIC topological_sort.cpp)
 add_library(file_input STATIC file_input.cpp)
 add_library(scc_partition STATIC scc_partition.cpp)
+add_library(2_sat_solver STATIC 2_sat_solver.cpp)
 
 add_executable (GRAPH main.cpp)
 
@@ -19,6 +20,7 @@ target_link_libraries(bipartity_check graph)
 target_link_libraries(topological_sort graph)
 target_link_libraries(file_input graph)
 target_link_libraries(scc_partition graph)
-target_link_libraries(GRAPH graph bipartity_check topological_sort file_input scc_partition)
+target_link_libraries(2_sat_solver graph)
+target_link_libraries(GRAPH graph bipartity_check topological_sort file_input scc_partition 2_sat_solver)
 
 # TODO: Добавьте тесты и целевые объекты, если это необходимо.

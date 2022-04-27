@@ -7,6 +7,6 @@
 
 int scc_partition(graph* g, int* parts);
 
-int scc_partition_2(graph* g, int* components);
+int tarjan_scc(graph* g, int* components);
 
 #endif // SCC_PARTITION_H_INCLUDED

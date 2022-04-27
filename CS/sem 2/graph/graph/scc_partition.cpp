@@ -76,43 +76,31 @@ int scc_partition(graph* g, int* parts) {
 	return 0;
 }
 
-int scc_2_dfs(graph* g, int v, node **stack, int *components, int *status) {
-	status[v] = 1;
-	components[v] = v;
+int tarjan_scc_dfs(graph* g, int v, node **stack, int *components, int *status) {
+	status[v] = v + 1;
+	components[v] = v + 1;
 	node* arc_ptr = find_adj_node(v, g)->arc_list;
 	while (arc_ptr) {
-		stack_push(stack, arc_ptr->num);
-		if (status[arc_ptr->num] == 0) {
-			scc_2_dfs(g, arc_ptr->num, stack, components, status);
-		}
-		else if (status[arc_ptr->num] == 1) {
-			components[(*stack)->num] = MIN(components[(*stack)->num], components[v]);
-		}
-		arc_ptr = arc_ptr->next;
-	}
-	int* mask = (int *) calloc(g->n, sizeof(int));
-	if (mask) {
-		while ((*stack)->num != v) {
-			
-			mask[stack_pop(stack)] = 1;
-		}
-		mask[stack_pop(stack)] = 1;
-		for (int i = 0; i < g->n; i++) {
-			if (mask[i]) {
-				components[i] = components[v];
+		if (status[arc_ptr->num]) {
+			components[v] = MIN(components[v], components[arc_ptr->num]);
+			if (components[arc_ptr->num] == status[arc_ptr->num]) {
+				while (*stack) {
+					int x = stack_pop(stack);
+					components[x] = components[v];
+				}
 			}
 		}
-		free(mask);
-	}
-	else {
-		return 1;
+		else {
+			stack_push(stack, arc_ptr->num);
+			tarjan_scc_dfs(g, arc_ptr->num, stack, components, status);
+		}
+		arc_ptr = arc_ptr->next;
 	}
 	return 0;
 }
 
-int scc_partition_2(graph* g, int* components) {
+int tarjan_scc(graph* g, int* components) {
 	int* status = (int*)calloc(g->n, sizeof(int));
-	node* stack = (node*)malloc(sizeof(node));
 	if (!components) {
 		return 1;
 	}
@@ -120,8 +108,8 @@ int scc_partition_2(graph* g, int* components) {
 	
 	for (int i = 0; i < g->n; i++) {
 		if (!status[i]) {
-			stack_push(&stack, i);
-			int state = scc_2_dfs(g, i, &stack, components, status);
+			node* stack = create_node(i);
+			int state = tarjan_scc_dfs(g, i, &stack, components, status);
 			if (state) return 1;
 		}
 	}

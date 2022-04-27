@@ -16,10 +16,20 @@ graph* graph_read(const char* path) {
 				int c = fgetc(file);
 				while (c != (int) '\n' && c != EOF) {
 					int buffer;
-					fscanf(file, "%d", &buffer);
-					//++str;
-					add_arc(result, origin, buffer);
-					c = fgetc(file);
+					if (fscanf(file, "%d", &buffer)) {
+						add_arc(result, origin, buffer);
+						c = fgetc(file);
+						if (c != (int) '\n' && c != (int) ',' && c != EOF && (c < (int)'0' || c >(int) '9')) {
+							graph_free(result);
+							printf("ERROR: Unexpected symbol");
+							return NULL;
+						}
+					}
+					else {
+						graph_free(result);
+						printf("ERROR: Unexpected symbol");
+						return NULL;
+					}
 				}
 			}
 		}
