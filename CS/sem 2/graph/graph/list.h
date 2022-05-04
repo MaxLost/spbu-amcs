@@ -20,4 +20,6 @@ void queue_push(node** head, int val);
 
 int queue_pop(node** head);
 
+void list_free(node** head);
+
 #endif // LIST_H_INCLUDED

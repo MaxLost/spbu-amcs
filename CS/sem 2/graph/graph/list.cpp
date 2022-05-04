@@ -42,3 +42,12 @@ int queue_pop(node** head) {
 	free(ptr);
 	return val;
 }
+
+void list_free(node** head) {
+	while (*head) {
+		node* ptr = *head;
+		*head = ptr->next;
+		free(ptr);
+	}
+	return;
+}

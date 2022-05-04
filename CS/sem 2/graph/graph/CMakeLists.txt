@@ -20,7 +20,7 @@ target_link_libraries(bipartity_check graph)
 target_link_libraries(topological_sort graph)
 target_link_libraries(file_input graph)
 target_link_libraries(scc_partition graph)
-target_link_libraries(2_sat_solver graph)
+target_link_libraries(2_sat_solver graph scc_partition)
 target_link_libraries(GRAPH graph bipartity_check topological_sort file_input scc_partition 2_sat_solver)
 
 # TODO: Добавьте тесты и целевые объекты, если это необходимо.

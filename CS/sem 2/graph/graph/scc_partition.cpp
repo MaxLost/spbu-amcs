@@ -101,7 +101,7 @@ int tarjan_scc_dfs(graph* g, int v, node **stack, int *components, int *status) 
 
 int tarjan_scc(graph* g, int* components) {
 	int* status = (int*)calloc(g->n, sizeof(int));
-	if (!components) {
+	if (!components || !status) {
 		return 1;
 	}
 	for (int i = 0; i < g->n; i++) components[i] = -1;
@@ -110,8 +110,12 @@ int tarjan_scc(graph* g, int* components) {
 		if (!status[i]) {
 			node* stack = create_node(i);
 			int state = tarjan_scc_dfs(g, i, &stack, components, status);
-			if (state) return 1;
+			if (state) {
+				list_free(&stack);
+				return 1;
+			}
 		}
 	}
+	free(status);
 	return 0;
 }

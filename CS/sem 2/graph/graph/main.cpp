@@ -4,6 +4,7 @@
 #include "topological_sort.h"
 #include "file_input.h"
 #include "scc_partition.h"
+#include "2_sat_solver.h"
 
 #define CUR_DIR "..\\..\\..\\..\\graph\\"
 
@@ -59,51 +60,24 @@ void get_scc(graph* g) {
 	return;
 }
 
-int main() {
-	int n = 5;
-	/*
-	printf("Enter number of vertexes of graph: ");
-	scanf_s("%d", &n);
-	getchar();
-	*/
+void scc_test() {
+	int n = 3;
 	graph* x = graph_init(n);
 	add_arc(x, 0, 1);
-	add_arc(x, 0, 2);
 	add_arc(x, 1, 0);
-	add_arc(x, 2, 3);
-	add_arc(x, 3, 4);
-	add_arc(x, 4, 2);
+	add_arc(x, 0, 2);
+	add_arc(x, 2, 0);
 	graph_print(x);
 	get_scc(x);
-	/*const char* source_path = CUR_DIR "test_graph.txt";
-	graph* x = graph_read(source_path);
-	graph_print(x);
-	get_scc(x);
-	const char* out_path = CUR_DIR "out_graph.txt";
-	graph_write(x, out_path);*/
-	/*const char* source_path = CUR_DIR "test_graph.txt";
-	graph* g = graph_read(source_path);
-	if (g) {
-		graph_print(g);
-		const char* out_path = CUR_DIR "out_graph.txt";
-		graph_write(g, out_path);
-	}*/
-	
-	/*int* a = (int*)calloc(n, sizeof(int));
-	int* b = (int*)calloc(n, sizeof(int));
-	int k = 0, l = 0;
-	if (bipartity_check_bfs(x, &a, &k, &b, &l)) {
-		printf("Graph is not biparted");
-	}
-	else {
-		printf("1st part: ");
-		for (int i = 0; i < k; i++) {
-			printf("%d ", a[i]);
-		}
-		printf("\n2nd part: ");
-		for (int i = 0; i < l; i++) {
-			printf("%d ", b[i]);
-		}
-	}*/
+}
+
+void sat_solver_test() {
+	char* test = "(x1 V ~x2)(x2 V x3)(~x2 V ~x3)(~x1 V x3)";
+	sat_node* expr = get_expression(test);
+	if (sat_solver(expr)) printf("ERROR");
+}
+
+int main() {
+	sat_solver_test();
 	return 0;
 }
