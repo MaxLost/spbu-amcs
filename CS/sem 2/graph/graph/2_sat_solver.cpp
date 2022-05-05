@@ -48,6 +48,15 @@ sat_node* sat_node_create(int l = 0, int r = 0) {
 	return result;
 }
 
+void sat_node_free(sat_node* ptr) {
+	while (ptr) {
+		sat_node* t = ptr;
+		ptr = ptr->next;
+		free(t);
+	}
+	return;
+}
+
 sat_node* get_expression(char *str) {
 	sat_node* result = sat_node_create();
 	sat_node* expr_ptr = result;
@@ -82,24 +91,20 @@ sat_node* get_expression(char *str) {
 				++closed;
 				break;
 			}
-			case 'V': {
-				++str;
-				break;
-			}
+			case 'V':
 			case ' ': {
 				++str;
 				break;
 			}
 			default: {
 				printf("ERROR: Unexpected symbol");
-				if (result->l == 0) {
-					return NULL;
-				}
+				sat_node_free(p);
+				sat_node_free(result);
 				return result;
 			}
 		}
 		if (p->l != 0 && p->r != 0) {
-			if (expr_ptr->l == 0) {
+			if (expr_ptr == result && expr_ptr->l == 0) {
 				expr_ptr->l = p->l;
 				expr_ptr->r = p->r;
 			}
@@ -113,11 +118,11 @@ sat_node* get_expression(char *str) {
 	}
 	if (opened != closed) {
 		printf("ERROR: Wrong expression\n");
-		if (result->l == 0) {
-			return NULL;
-		}
+		sat_node_free(p);
+		sat_node_free(result);
 		return result;
 	}
+	sat_node_free(p);
 	return result;
 }
 
@@ -153,25 +158,26 @@ int sat_solver(sat_node *expr) {
 	tarjan_scc(g, parts);
 	int max = 1;
 	for (int i = 0; i < g->n; i += 2) {
-		if (parts[i] == parts[i + 1])
-			return 1;
+		if (parts[i] == parts[i + 1]) {
+			printf("ERROR: No solutions\n");
+			return 0;
+		}
 	}
 	int* solution = (int*)malloc(g->n * sizeof(int));
 	if (!solution) return 1;
 	for (int i = 0; i < g->n; i++) solution[i] = -1;
-	for (int i = 0; i < g->n; i++) {
-		if (i & 1) {
-			if (parts[i] < parts[i - 1]) solution[i] = 0;
-			else solution[i] = 1;
+	for (int i = 0; i < g->n; i += 2) {
+		if (parts[i] > parts[i + 1]) {
+			solution[i] = 1;
+			solution[i + 1] = 0;
 		}
 		else {
-			if (parts[i] > parts[i + 1]) solution[i] = 1;
-			else solution[i] = 0;
+			solution[i] = 0;
+			solution[i + 1] = 1;
 		}
 	}
-	for (int i = 0; i < g->n; i++) {
-		if (i & 1) printf("~x%d: %d\n", (i - 1) / 2, solution[i]);
-		else printf("~x%d: %d\n", i / 2, solution[i]);
+	for (int i = 0; i < g->n; i += 2) {
+		printf("x%d: %d\n", (i / 2) + 1, solution[i]);
 	}
 	return 0;
 }
