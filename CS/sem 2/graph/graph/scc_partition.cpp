@@ -75,3 +75,47 @@ int scc_partition(graph* g, int* parts) {
 	graph_free(h);
 	return 0;
 }
+
+int tarjan_scc_dfs(graph* g, int v, node **stack, int *components, int *status) {
+	status[v] = v + 1;
+	components[v] = v + 1;
+	node* arc_ptr = find_adj_node(v, g)->arc_list;
+	while (arc_ptr) {
+		if (status[arc_ptr->num]) {
+			components[v] = MIN(components[v], components[arc_ptr->num]);
+			if (components[arc_ptr->num] == status[arc_ptr->num]) {
+				while (*stack) {
+					int x = stack_pop(stack);
+					components[x] = components[v];
+				}
+			}
+		}
+		else {
+			stack_push(stack, arc_ptr->num);
+			tarjan_scc_dfs(g, arc_ptr->num, stack, components, status);
+		}
+		arc_ptr = arc_ptr->next;
+	}
+	return 0;
+}
+
+int tarjan_scc(graph* g, int* components) {
+	int* status = (int*)calloc(g->n, sizeof(int));
+	if (!components || !status) {
+		return 1;
+	}
+	for (int i = 0; i < g->n; i++) components[i] = -1;
+	
+	for (int i = 0; i < g->n; i++) {
+		if (!status[i]) {
+			node* stack = create_node(i);
+			int state = tarjan_scc_dfs(g, i, &stack, components, status);
+			if (state) {
+				list_free(&stack);
+				return 1;
+			}
+		}
+	}
+	free(status);
+	return 0;
+}
