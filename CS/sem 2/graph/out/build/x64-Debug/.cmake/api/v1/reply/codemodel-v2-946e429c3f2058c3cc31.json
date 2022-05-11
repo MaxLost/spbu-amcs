@@ -1,0 +1,146 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "graph",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "graph",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "GRAPH",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5,
+						6,
+						7,
+						8
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "2_sat_solver::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-2_sat_solver-Debug-6ce040140ea0f848e399.json",
+					"name" : "2_sat_solver",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "GRAPH::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-GRAPH-Debug-1e15af5cc81ce81d0b57.json",
+					"name" : "GRAPH",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "bipartity_check::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-bipartity_check-Debug-5488f818824b740c6c13.json",
+					"name" : "bipartity_check",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "file_input::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-file_input-Debug-6a736d962ae12e1c942c.json",
+					"name" : "file_input",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "graph::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-graph-Debug-c6cde17d2156d1712b32.json",
+					"name" : "graph",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "list::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-list-Debug-832713099978e8bc0e0b.json",
+					"name" : "list",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "scc_partition::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-scc_partition-Debug-3057c675a9b22f73b475.json",
+					"name" : "scc_partition",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "str_input::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-str_input-Debug-e7ba8642a32001105981.json",
+					"name" : "str_input",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "topological_sort::@24f0212b3bb5eb7e3fe6",
+					"jsonFile" : "target-topological_sort-Debug-1a36d78ea858ccda9d59.json",
+					"name" : "topological_sort",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph/out/build/x64-Debug",
+		"source" : "C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/graph"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

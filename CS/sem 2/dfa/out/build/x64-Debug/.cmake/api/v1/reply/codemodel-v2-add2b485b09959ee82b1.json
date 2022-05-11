@@ -1,0 +1,101 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"projectIndex" : 0,
+					"source" : "."
+				},
+				{
+					"build" : "dfa",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.8"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "dfa",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "DFA",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 1,
+					"id" : "DFA::@9146d1501e8b82497cd8",
+					"jsonFile" : "target-DFA-Debug-1e44f5d369b4bd81bff7.json",
+					"name" : "DFA",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "dfa::@9146d1501e8b82497cd8",
+					"jsonFile" : "target-dfa-Debug-25a35bb3f64c4f0f570b.json",
+					"name" : "dfa",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "graph::@9146d1501e8b82497cd8",
+					"jsonFile" : "target-graph-Debug-d400766ea4df619c0edc.json",
+					"name" : "graph",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "list::@9146d1501e8b82497cd8",
+					"jsonFile" : "target-list-Debug-ec97bfc845a655ad2c9e.json",
+					"name" : "list",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug",
+		"source" : "C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 2
+	}
+}

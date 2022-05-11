@@ -1,0 +1,8 @@
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/dfa/CMakeFiles/graph.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/dfa/CMakeFiles/list.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/dfa/CMakeFiles/DFA.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/dfa/CMakeFiles/dfa.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/dfa/CMakeFiles/edit_cache.dir
+C:/Users/User/Desktop/spbu-mm-amcs/CS/sem 2/dfa/out/build/x64-Debug/dfa/CMakeFiles/rebuild_cache.dir
