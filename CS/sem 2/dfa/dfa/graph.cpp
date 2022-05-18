@@ -2,6 +2,8 @@
 
 adj_node *create_adj_node(int num, node *arc = NULL, adj_node *next = NULL){
     adj_node *result = (adj_node *) malloc(sizeof(adj_node));
+    if (!result)
+        return NULL;
     result->num = num;
     result->arc_list = arc;
     result->next = next;
@@ -10,9 +12,10 @@ adj_node *create_adj_node(int num, node *arc = NULL, adj_node *next = NULL){
 
 adj_node* find_adj_node(int v, graph *g) {
     adj_node* adj_ptr = g->adj_list;
-    while (adj_ptr->num != v) {
+    while (adj_ptr && adj_ptr->num != v) {
         adj_ptr = adj_ptr->next;
     }
+    if (!adj_ptr) return NULL;
     return adj_ptr;
 }
 

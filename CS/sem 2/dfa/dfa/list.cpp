@@ -1,10 +1,10 @@
 #include "list.h"
 
-node* create_node(int num, int cond, node* next) {
+node* create_node(int num, int cond, node *next) {
     node* result = (node*)malloc(sizeof(node));
     result->num = num;
 	result->cond = cond;
-    result->next = next;
+    result->next = NULL;
     return result;
 }
 

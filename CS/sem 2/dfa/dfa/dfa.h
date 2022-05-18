@@ -27,4 +27,12 @@ dfa* dfa_get_number_recognizer(int x);
 
 void dfa_print(dfa* a, int x);
 
+dfa* dfa_complement(dfa* a);
+
+dfa* dfa_intersection(dfa* a, dfa* b);
+
+dfa* dfa_union(dfa* a, dfa* b);
+
+dfa* dfa_difference(dfa* a, dfa* b);
+
 #endif // DFA_H_INCLUDED

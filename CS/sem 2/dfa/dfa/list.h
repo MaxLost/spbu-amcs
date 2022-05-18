@@ -11,7 +11,7 @@ struct node {
 
 typedef struct node node;
 
-node* create_node(int num, int cond, node* next = NULL);
+node* create_node(int num, int cond, node *next = NULL);
 
 //void stack_push(node** head, int val);
 //
