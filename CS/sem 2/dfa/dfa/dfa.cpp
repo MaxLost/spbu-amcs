@@ -32,7 +32,7 @@ dfa *dfa_clone(dfa* src) {
 	while (adj_ptr) {
 		node* arc_ptr = adj_ptr->arc_list;
 		while (arc_ptr) {
-			dfa_add_transition(result, adj_ptr->num, arc_ptr->num, arc_ptr->cond);
+			dfa_set_transition(result, adj_ptr->num, arc_ptr->num, arc_ptr->cond);
 			arc_ptr = arc_ptr->next;
 		}
 		adj_ptr = adj_ptr->next;
@@ -47,33 +47,29 @@ void dfa_free(dfa* ptr) {
 	return;
 }
 
-int dfa_add_transition(dfa* a, int origin, int destination, int condition) {
+int dfa_set_transition(dfa* a, int origin, int destination, int condition) {
 	node* arc_ptr = find_arc(a->g, origin, condition);
-	if (arc_ptr && arc_ptr->num == a->failure) {
+	if (arc_ptr->num == a->failure)
 		arc_ptr->num = destination;
-	}
-	else {
+	else
 		add_arc(a->g, origin, destination, condition);
-	}
 	return 0;
 }
 
-int dfa_delete_transition(dfa* a, int origin, int destination, int condition) {
-	adj_node* adj_ptr = find_adj_node(origin, a->g);
+int dfa_reset_transition(dfa* a, int origin, int destination, int condition) {
 	node* arc_ptr = find_arc(a->g, origin, destination, condition);
-	if (arc_ptr) {
+	if (arc_ptr)
 		arc_ptr->num = a->failure;
-	}
 	return 0;
 }
 
-int dfa_delete_all_transitions(dfa* a, int origin) {
-	adj_node* adj_ptr = find_adj_node(origin, a->g);
-	list_free(&(adj_ptr->arc_list));
-	dfa_add_transition(a, adj_ptr->num, a->failure, 0);
-	dfa_add_transition(a, adj_ptr->num, a->failure, 1);
-	return 0;
-}
+//int dfa_delete_all_transitions(dfa* a, int origin) {
+//	adj_node* adj_ptr = find_adj_node(origin, a->g);
+//	list_free(&(adj_ptr->arc_list));
+//	dfa_add_transition(a, adj_ptr->num, a->failure, 0);
+//	dfa_add_transition(a, adj_ptr->num, a->failure, 1);
+//	return 0;
+//}
 
 int dfa_set_final_state(dfa* a, int n) {
 	int* t = (int*)malloc(((a->final_num) + 1) * sizeof(int));
@@ -96,9 +92,8 @@ int dfa_next_state(dfa* a, int current_state, int x) {
 	return a->failure;
 }
 
-int dfa_check(dfa* a, int x) {
-	int current_state = 0;
-	int counter = 0;
+int dfa_check(dfa* a, int num) {
+	int current_state = 0, counter = 0, x = num;
 	while (x > 0 || (!x && !current_state)) {
 		int d = x & 1;
 		current_state = dfa_next_state(a, current_state, d);
@@ -107,7 +102,7 @@ int dfa_check(dfa* a, int x) {
 		}
 		x >>= 1;
 		++counter;
-		if (counter > 1000)
+		if (counter > num)
 			break;
 	}
 	for (int i = 0; i < a->final_num; i++) {
@@ -124,9 +119,9 @@ dfa *dfa_get_number_recognizer(int x) {
 	for (int i = 0; i <= k; i++) {
 		int d = x & 1;
 		x >>= 1;
-		dfa_add_transition(result, i, i + 1, d);
+		dfa_set_transition(result, i, i + 1, d);
 	}
-	dfa_add_transition(result, k, k, 0);
+	dfa_set_transition(result, k, k, 0);
 	dfa_set_final_state(result, k);
 	return result;
 }
@@ -138,62 +133,60 @@ void dfa_print(dfa* a, int x) {
 	return;
 }
 
-int dfa_cartesian_minimize(dfa** x, int an, int bn) {
-	adj_node* adj_ptr = (*x)->g->adj_list;
-
-	while (adj_ptr) {
-		node* arc_ptr = adj_ptr->arc_list;
-		int* t = (int *) malloc(2 * sizeof(int));
-		if (!t) return 1;
-		int c[2] = {0, 0};
-		while (arc_ptr) {
-			if (arc_ptr->num == (*x)->failure) {
-				t[arc_ptr->cond] = (*x)->failure;
-				c[arc_ptr->cond] = 9;
-			}
-			else if (!c[arc_ptr->cond]) {
-				c[arc_ptr->cond]++;
-				t[arc_ptr->cond] = arc_ptr->num % bn;
-			}
-			else if (c[arc_ptr->cond] == 1) {
-				c[arc_ptr->cond]++;
-				t[arc_ptr->cond] += (arc_ptr->num / bn) * bn;
-			}
-			arc_ptr = arc_ptr->next;
-		}
-		dfa_delete_all_transitions((*x), adj_ptr->num);
-		dfa_add_transition((*x), adj_ptr->num, t[0], 0);
-		dfa_add_transition((*x), adj_ptr->num, t[1], 1);
-		adj_ptr = adj_ptr->next;
-	}
-	return 0;
-}
+//int dfa_cartesian_minimize(dfa** x, int an, int bn) {
+//	adj_node* adj_ptr = (*x)->g->adj_list;
+//
+//	while (adj_ptr) {
+//		node* arc_ptr = adj_ptr->arc_list;
+//		int* t = (int *) malloc(2 * sizeof(int));
+//		if (!t) return 1;
+//		int c[2] = {0, 0};
+//		while (arc_ptr) {
+//			if (arc_ptr->num == (*x)->failure) {
+//				t[arc_ptr->cond] = (*x)->failure;
+//				c[arc_ptr->cond] = 9;
+//			}
+//			else if (!c[arc_ptr->cond]) {
+//				c[arc_ptr->cond]++;
+//				t[arc_ptr->cond] = arc_ptr->num % bn;
+//			}
+//			else if (c[arc_ptr->cond] == 1) {
+//				c[arc_ptr->cond]++;
+//				t[arc_ptr->cond] += (arc_ptr->num / bn) * bn;
+//			}
+//			arc_ptr = arc_ptr->next;
+//		}
+//		dfa_delete_all_transitions((*x), adj_ptr->num);
+//		dfa_add_transition((*x), adj_ptr->num, t[0], 0);
+//		dfa_add_transition((*x), adj_ptr->num, t[1], 1);
+//		adj_ptr = adj_ptr->next;
+//	}
+//	return 0;
+//}
 
 dfa* dfa_cartesian_product(dfa* a, dfa* b) {
 	int an = a->g->n, bn = b->g->n;
 	
-	dfa* result = dfa_init((an * bn));
+	dfa* result = dfa_init((an * bn) - 1);
 	for (int i = 0; i < an; i++) {
 		int m = i * bn;
 		for (int j = 0; j < bn; j++) {
-			node *t = find_arc(b->g, j, 0);
-			if (t) dfa_add_transition(result, m + j, m + t->num, 0);
+			node *x = find_arc(a->g, i, 0);
+			node *y = find_arc(b->g, j, 0);
+			if (!x || !y) {
+				dfa_free(result);
+				return NULL;
+			}
+			dfa_set_transition(result, m + j, (x->num) * bn + y->num, 0);
 			
-			t = find_arc(b->g, j, 1);
-			if (t) dfa_add_transition(result, m + j, m + t->num, 1);
-			
-			t = find_arc(a->g, i, 0);
-			if (t) dfa_add_transition(result, m + j, (t->num) * bn + j, 0);
-			
-			t = find_arc(a->g, i, 1);
-			if (t) dfa_add_transition(result, m + j, (t->num) * bn + j, 1);
+			x = find_arc(a->g, i, 1);
+			y = find_arc(b->g, j, 1);
+			if (!x || !y) {
+				dfa_free(result);
+				return NULL;
+			}
+			dfa_set_transition(result, m + j, (x->num) * bn + y->num, 1);
 		}
-	}
-	graph_print(result->g);
-	int t = dfa_cartesian_minimize(&result, an, bn);
-	if (t) {
-		dfa_free(result);
-		return NULL;
 	}
 
 	return result;
@@ -236,7 +229,7 @@ dfa* dfa_intersection(dfa* a, dfa* b) {
 	dfa* result = dfa_cartesian_product(a, b);
 	for (int i = 0; i < a->final_num; i++) {
 		for (int j = 0; j < b->final_num; j++) {
-			dfa_set_final_state(result, a->final[i] * (b->g->n - 1) + b->final[j]);
+			dfa_set_final_state(result, a->final[i] * b->g->n + b->final[j]);
 		}
 	}
 	return result;
@@ -259,7 +252,6 @@ dfa* dfa_union(dfa* a, dfa* b) {
 			dfa_set_final_state(result, j * b->g->n + b->final[i]);
 		}
 	}
-	dfa_set_final_state(result, result->failure);
 	return result;
 }
 
